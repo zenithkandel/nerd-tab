@@ -10,17 +10,23 @@
     "128": "assets/icon128.png"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "alarms"
   ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "web_accessible_resources": [
     {
       "resources": [
         "data/data.json",
+        "data/",
         "styles.css",
-        "app.js"
+        "app.js",
+        "modules/*.js"
       ],
       "matches": ["<all_urls>"]
     }
