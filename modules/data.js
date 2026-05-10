@@ -72,7 +72,7 @@ function normalizeNode(node, depth = 0, parentId = null, index = 0, path = []) {
 }
 
 export async function loadSyllabusSource() {
-    const url = chrome?.runtime?.getURL ? chrome.runtime.getURL('data.json') : './data.json';
+    const url = typeof chrome !== 'undefined' && chrome.runtime?.getURL ? chrome.runtime.getURL('data.json') : './data.json';
     const response = await fetch(url, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Unable to load syllabus source: ${response.status}`);
     const text = await response.text();

@@ -20,7 +20,15 @@ const quotes = [
 
 async function boot() {
     const state = Storage.loadAll();
-    const syllabusData = await loadSyllabusSource();
+    let syllabusData = { tree: [] };
+    let syllabusError = null;
+
+    try {
+        syllabusData = await loadSyllabusSource();
+    } catch (error) {
+        syllabusError = error;
+        console.error('Failed to load syllabus data:', error);
+    }
 
     initUI({ state });
     initCommands();
@@ -32,6 +40,13 @@ async function boot() {
     initAnalytics(state);
     initNotes(state);
     initFlashcards(state);
+
+    if (syllabusError) {
+        const container = document.getElementById('syllabus-tree-container');
+        if (container) {
+            container.innerHTML = '<div class="metric"><div><small>Data load fallback</small><strong>Unable to read data.json in this context.</strong></div></div>';
+        }
+    }
 
     wireHeader();
     renderShellStats();
@@ -105,7 +120,7 @@ function renderShellStats() {
                 <input id="settings-exam-date" type="date" value="${settings.examDate || ''}" />
                 <input id="settings-theme" placeholder="Theme" value="${settings.theme || 'paper'}" />
                 <button class="primary-button" id="settings-save-button">Save</button>
-                <textarea id="settings-notes" placeholder="Focus rules, exam date notes, or study constraints">${settings.studyRules || ''}</textarea>
+                <textarea id="settings-notes" placeholder="Focus rules, exam date notes, or study constraints">${escapeHtml(settings.studyRules || '')}</textarea>
             </div>
             <div class="metric-list">
                 <div class="metric"><div><small>Pomodoro minutes</small><strong>${settings.pomodoroMinutes || 25}</strong></div></div>
@@ -124,6 +139,10 @@ function renderShellStats() {
             window.location.reload();
         });
     }
+}
+
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 }
 
 document.addEventListener('DOMContentLoaded', boot);
