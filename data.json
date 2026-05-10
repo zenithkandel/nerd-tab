@@ -1,0 +1,930 @@
+{
+  "meta": {
+    "country": "Nepal",
+    "board": "NEB",
+    "exam_context": "HISSAN Grade 11 Chemistry",
+    "academic_year_bs": "2082",
+    "research_confidence": "Very High - Information corroborated across multiple official and educational sources including NEB curriculum documents, leading educational platforms, and past paper analyses.",
+    "total_sources_checked_estimate": 35,
+    "notes": "The syllabus is based on the NEB curriculum for subject code 201. It is also used for the HISSAN central examinations. The total working hours are 160 (128 theory + 32 practical). The final theoretical exam is for 75 marks, while the practical exam accounts for 25 marks."
+  },
+  "syllabus": [
+    {
+      "unit_number": 1,
+      "unit_name": "General and Physical Chemistry",
+      "estimated_weightage_percent": 36,
+      "importance_level": "Very High",
+      "chapters": [
+        {
+          "chapter_name": "Foundation and Fundamentals",
+          "importance_level": "Medium",
+          "estimated_exam_weight": "2-3 marks",
+          "topics": [
+            {
+              "topic_name": "General introduction of chemistry",
+              "priority": "Medium",
+              "commonly_asked": false,
+              "subtopics": ["Importance and scope of chemistry"]
+            },
+            {
+              "topic_name": "Basic concepts of chemistry",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Atoms, molecules, relative masses of atoms and molecules",
+                "Atomic mass unit (amu)",
+                "Radicals, molecular formula, empirical formula",
+                "Percentage composition from a molecular formula"
+              ]
+            }
+          ],
+          "important_numericals": [
+            "Percentage composition calculation from molecular formula"
+          ],
+          "important_derivations": [],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Stoichiometry",
+          "importance_level": "Very High",
+          "estimated_exam_weight": "8-10 marks",
+          "topics": [
+            {
+              "topic_name": "Dalton's atomic theory and its postulates",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Laws of stoichiometry",
+                "Law of conservation of mass",
+                "Law of constant composition",
+                "Law of multiple proportions",
+                "Law of reciprocal proportions",
+                "Gay-Lussac's law of gaseous volumes"
+              ]
+            },
+            {
+              "topic_name": "Avogadro's law and some deductions",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Molecular mass and vapour density",
+                "Molecular mass and volume of gas",
+                "Molecular mass and number of particles",
+                "Mole and its relation with mass, volume, and number of particles",
+                "Calculations based on mole concept",
+                "Limiting reactant and excess reactant",
+                "Theoretical yield, experimental yield, and % yield",
+                "Calculation of empirical and molecular formula from % composition"
+              ]
+            }
+          ],
+          "important_numericals": [
+            "Mole concept calculations (mass, volume, number of particles)",
+            "Limiting and excess reactant problems",
+            "Empirical and molecular formula determination",
+            "Theoretical and percentage yield calculations",
+            "Avogadro's law and its deductions"
+          ],
+          "important_derivations": [],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Atomic Structure",
+          "importance_level": "High",
+          "estimated_exam_weight": "6-8 marks",
+          "topics": [
+            {
+              "topic_name": "Rutherford's atomic model and its limitations",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": ["Alpha ray scattering experiment"]
+            },
+            {
+              "topic_name": "Bohr's atomic model",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Postulates of Bohr's atomic model",
+                "Spectrum of hydrogen atom",
+                "Defects of Bohr's theory",
+                "Elementary idea of quantum mechanical model (de Broglie's wave equation, Heisenberg's Uncertainty Principle)",
+                "Concept of probability"
+              ]
+            },
+            {
+              "topic_name": "Quantum mechanical model of atom",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Quantum numbers",
+                "Orbitals and shapes of s and p orbitals",
+                "Aufbau principle",
+                "Pauli's exclusion principle",
+                "Hund's rule of maximum multiplicity",
+                "Electronic configurations of atoms and ions (up to atomic number 30)"
+              ]
+            }
+          ],
+          "important_numericals": [
+            "Calculations involving de Broglie's wavelength",
+            "Problems based on Heisenberg's uncertainty principle",
+            "Determining electronic configurations"
+          ],
+          "important_derivations": [
+            "Derivation of Bohr's postulates",
+            "Explanation of hydrogen spectrum using Bohr's model"
+          ],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Classification of Elements and Periodic Table",
+          "importance_level": "High",
+          "estimated_exam_weight": "4-6 marks",
+          "topics": [
+            {
+              "topic_name": "Modern periodic law and modern periodic table",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Classification of elements into different groups, periods, and blocks",
+                "IUPAC classification of elements",
+                "Nuclear charge and effective nuclear charge"
+              ]
+            },
+            {
+              "topic_name": "Periodic trends and periodicity",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Atomic radii, ionic radii",
+                "Ionization energy, electron affinity, electronegativity",
+                "Metallic characters (general trend and explanation only)"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Chemical Bonding and Shapes of Molecules",
+          "importance_level": "Very High",
+          "estimated_exam_weight": "7-9 marks",
+          "topics": [
+            {
+              "topic_name": "Valence shell, valence electron, and octet theory",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Ionic bond and its properties",
+                "Covalent bond and coordinate covalent bond",
+                "Properties of covalent compounds",
+                "Lewis dot structure of some common compounds of s and p block elements",
+                "Resonance"
+              ]
+            },
+            {
+              "topic_name": "VSEPR theory and shapes of molecules",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Shapes of BeF2, BF3, CH4, CH3Cl, PCl5, SF6, H2O, NH3, CO2, H2S, PH3"
+              ]
+            },
+            {
+              "topic_name": "Valence Bond Theory and Hybridization",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Elementary idea of Valence Bond Theory",
+                "Hybridization involving s and p orbitals only",
+                "Bond characteristics: bond length, ionic character, dipole moment"
+              ]
+            },
+            {
+              "topic_name": "Intermolecular Forces and Metallic Bonding",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Van der Waal's force and molecular solids",
+                "Hydrogen bonding and its application",
+                "Metallic bonding and properties of metallic solids"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [
+            "Application of VSEPR theory to predict shapes of molecules",
+            "Concept of resonance in chemical structures"
+          ],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Oxidation and Reduction",
+          "importance_level": "High",
+          "estimated_exam_weight": "4-5 marks",
+          "topics": [
+            {
+              "topic_name": "General and electronic concept of oxidation and reduction",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Oxidation number and rules for assigning oxidation number",
+                "Balancing redox reactions by oxidation number and ion-electron (half-reaction) method"
+              ]
+            },
+            {
+              "topic_name": "Electrolysis",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Qualitative aspect",
+                "Quantitative aspect (Faraday's laws of electrolysis)"
+              ]
+            }
+          ],
+          "important_numericals": [
+            "Balancing redox reactions using both methods",
+            "Applications of Faraday's laws"
+          ],
+          "important_derivations": [],
+          "important_reactions": ["Balancing of redox reactions"]
+        },
+        {
+          "chapter_name": "States of Matter",
+          "importance_level": "Very High",
+          "estimated_exam_weight": "8-10 marks",
+          "topics": [
+            {
+              "topic_name": "Gaseous state",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Kinetic theory of gas and its postulates",
+                "Gas laws: Boyle's law, Charles' law, Avogadro's law, combined gas equation",
+                "Dalton's law of partial pressure, Graham's law of diffusion",
+                "Ideal gas and ideal gas equation (PV = nRT)",
+                "Universal gas constant and its significance",
+                "Deviation of real gas from ideality (solving related numerical problems)"
+              ]
+            },
+            {
+              "topic_name": "Liquid state",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Physical properties of liquids: evaporation and condensation, vapour pressure and boiling point, surface tension and viscosity (qualitative idea only)",
+                "Liquid crystals and their applications"
+              ]
+            },
+            {
+              "topic_name": "Solid state",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Types of solids: amorphous and crystalline solids",
+                "Efflorescent, deliquescent, and hygroscopic solids",
+                "Crystallization and crystal growth, water of crystallization",
+                "Introduction to unit crystal lattice and unit cell"
+              ]
+            }
+          ],
+          "important_numericals": [
+            "Ideal gas equation numericals (PV=nRT)",
+            "Numericals based on Boyle's, Charles', and combined gas laws",
+            "Numericals based on Graham's law of diffusion",
+            "Numericals based on Dalton's law of partial pressure"
+          ],
+          "important_derivations": [
+            "Derivation of PV = nRT",
+            "Derivation of Graham's law of diffusion",
+            "Derivation of Dalton's law of partial pressure"
+          ],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Chemical Equilibrium",
+          "importance_level": "High",
+          "estimated_exam_weight": "3-4 marks",
+          "topics": [
+            {
+              "topic_name": "Physical and chemical equilibrium",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": ["Dynamic nature of chemical equilibrium"]
+            },
+            {
+              "topic_name": "Law of mass action and equilibrium constant",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Expression for equilibrium constant and its importance",
+                "Relationship between Kp and Kc"
+              ]
+            },
+            {
+              "topic_name": "Le Chatelier's Principle and its applications",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Effect of concentration, temperature, and pressure on equilibrium state"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [
+            "Derivation of relationship between Kp and Kc",
+            "Derivation of law of mass action"
+          ],
+          "important_reactions": []
+        }
+      ]
+    },
+    {
+      "unit_number": 2,
+      "unit_name": "Inorganic Chemistry",
+      "estimated_weightage_percent": 27,
+      "importance_level": "High",
+      "chapters": [
+        {
+          "chapter_name": "Chemistry of Non-metals",
+          "importance_level": "Very High",
+          "estimated_exam_weight": "10-12 marks",
+          "topics": [
+            {
+              "topic_name": "Hydrogen",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Chemistry of atomic and nascent hydrogen",
+                "Isotopes of hydrogen and their uses",
+                "Application of hydrogen as fuel",
+                "Heavy water and its applications"
+              ]
+            },
+            {
+              "topic_name": "Oxygen and Ozone",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Definition of allotropy and examples",
+                "Types of oxides (acidic, basic, neutral, amphoteric, peroxide, and mixed oxides)",
+                "Applications of hydrogen peroxide; Medical and industrial application of oxygen",
+                "Occurrence, preparation of ozone from oxygen, structure of ozone, test for ozone",
+                "Ozone layer depletion (causes, effects, and control measures), uses of ozone"
+              ]
+            },
+            {
+              "topic_name": "Nitrogen",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Reason for inertness of nitrogen and active nitrogen",
+                "Chemical properties of ammonia [Action with CuSO4 solution, water, FeCl3 solution, Conc. HCl, Mercurous nitrate paper, O2]",
+                "Applications of ammonia",
+                "Harmful effects of ammonia",
+                "Oxy-acids of nitrogen (name and formula)",
+                "Chemical properties of nitric acid [HNO3 as an acid and oxidizing agent (action with zinc, magnesium, iron, copper, sulphur, carbon, SO2, and H2S)]",
+                "Ring test for nitrate ion"
+              ]
+            },
+            {
+              "topic_name": "Halogens",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "General characteristics of halogens",
+                "Comparative study on preparation (no diagram and description required), chemical properties [with water, alkali, ammonia, oxidizing character, bleaching action] and uses of halogens (Cl2, Br2 and I2);",
+                "Test for Cl2, Br2 and I2",
+                "Comparative study on preparation (no diagram and description required), properties (reducing strength, acidic nature and solubility) and uses of haloacids (HCl, HBr and HI)"
+              ]
+            },
+            {
+              "topic_name": "Carbon and Phosphorus",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Allotropes of carbon (crystalline and amorphous) including fullerenes (structure, general properties and uses only)",
+                "Properties (reducing action, reaction with metals and nonmetals) and uses of carbon monoxide",
+                "Allotropes of phosphorus (name only)",
+                "Preparation (no diagram and description required), properties (basic nature, reducing nature, action with halogens and oxygen) and uses of phosphine"
+              ]
+            },
+            {
+              "topic_name": "Sulphur",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Allotropes of sulphur (name only) and uses of sulphur",
+                "Hydrogen sulphide (preparation from Kipp's apparatus with diagram), properties (Acidic nature, reducing nature, analytical reagent) and uses",
+                "Sulphur dioxide its properties (acidic nature, reducing nature, oxidising nature and bleaching action) and uses",
+                "Sulphuric acid and its properties (acidic nature, oxidising nature, dehydrating nature) and uses",
+                "Sodium thiosulphate (formula and uses)"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": [
+            "Reactions of ammonia with various reagents (CuSO4, Cl2, etc.)",
+            "Reactions of nitric acid as an oxidizing agent",
+            "Preparation of hydrogen sulphide in Kipp's apparatus",
+            "Ring test for nitrate ion",
+            "Tests for halogens (Cl2, Br2, I2)"
+          ]
+        },
+        {
+          "chapter_name": "Chemistry of Metals",
+          "importance_level": "High",
+          "estimated_exam_weight": "6-8 marks",
+          "topics": [
+            {
+              "topic_name": "Metals and Metallurgical Principles",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Definition of metallurgy and its types (hydrometallurgy, pyrometallurgy, electrometallurgy)",
+                "Introduction of ores; gangue or matrix, flux and slag, alloy and amalgam",
+                "General principles of extraction of metals (different processes involved in metallurgy) – concentration, calcination and roasting, smelting, carbon reduction, thermite and electrochemical reduction",
+                "Refining of metals (poling and electro-refinement)"
+              ]
+            },
+            {
+              "topic_name": "Alkali Metals",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "General characteristics of alkali metals",
+                "Sodium [extraction from Down's process, properties (action with Oxygen, water, acids nonmetals and ammonia) and uses]",
+                "Properties (precipitation reaction and action with carbon mon.oxide) and uses of sodium hydroxide",
+                "Properties (action with CO2, SO2, water, precipitation reactions) and uses of sodium carbonate"
+              ]
+            },
+            {
+              "topic_name": "Alkaline Earth Metals",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "General characteristics of alkaline earth metals",
+                "Molecular formula and uses of (quick lime, bleaching powder, magnesia, plaster of paris and epsom salt)",
+                "Solubility of hydroxides, carbonates and sulphates of alkaline earth metals (general trend with explanation)",
+                "Stability of carbonate and nitrate of alkaline earth metals (general trend with explanation)"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": [
+            "Extraction of sodium by Down's process",
+            "Action of sodium with water and ammonia",
+            "Action of sodium hydroxide with CO2, SO2",
+            "Conversion of sodium carbonate to sodium hydroxide"
+          ]
+        },
+        {
+          "chapter_name": "Bio-inorganic Chemistry",
+          "importance_level": "Medium",
+          "estimated_exam_weight": "3-4 marks",
+          "topics": [
+            {
+              "topic_name": "Introduction to Bio-inorganic Chemistry",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Introduction of Micro and macro nutrients",
+                "Importance of metal ions in biological systems (ions of Na, K, Mg, Ca, Fe, Cu, Zn, Ni, Co, Cr)",
+                "Ion pumps (sodium-potassium and sodium-glucose pump)",
+                "Metal toxicity (toxicity due to iron, arsenic, mercury, lead and cadmium)"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": []
+        }
+      ]
+    },
+    {
+      "unit_number": 3,
+      "unit_name": "Organic Chemistry",
+      "estimated_weightage_percent": 23,
+      "importance_level": "Very High",
+      "chapters": [
+        {
+          "chapter_name": "Basic Concept of Organic Chemistry",
+          "importance_level": "High",
+          "estimated_exam_weight": "4-5 marks",
+          "topics": [
+            {
+              "topic_name": "Introduction to organic chemistry and organic compounds",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Reasons for the separate study of organic compounds from inorganic compounds",
+                "Tetra-covalency and catenation properties of carbon"
+              ]
+            },
+            {
+              "topic_name": "Classification and nomenclature of organic compounds",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Classification of organic compounds",
+                "Alkyl groups, functional groups and homologous series",
+                "Idea of structural formula, contracted formula and bond line structural formula"
+              ]
+            },
+            {
+              "topic_name": "Concepts of cracking and gasoline",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Preliminary idea of cracking and reforming",
+                "Quality of gasoline, octane number, cetane number and gasoline additive"
+              ]
+            }
+          ],
+          "important_numericals": [
+            "Octane number and cetane number related problems",
+            "Identification of functional groups from molecular formulas"
+          ],
+          "important_derivations": [],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Fundamental Principles of Organic Chemistry",
+          "importance_level": "Very High",
+          "estimated_exam_weight": "6-8 marks",
+          "topics": [
+            {
+              "topic_name": "IUPAC Nomenclature of Organic Compounds",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "IUPAC Nomenclature of Organic Compounds (upto chain having 6 carbon atoms)"
+              ]
+            },
+            {
+              "topic_name": "Qualitative analysis of organic compounds",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Detection of N, S and halogens by Lassaigne's test"
+              ]
+            },
+            {
+              "topic_name": "Isomerism in Organic Compounds",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Definition and classification of isomerism",
+                "Structural isomerism and its types: chain isomerism, position isomerism, functional isomerism, metamerism and tautomerism",
+                "Concept of geometrical isomerism (cis & trans) & optical isomerism (d & l form)"
+              ]
+            },
+            {
+              "topic_name": "Preliminary Idea of Reaction Mechanism",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Homolytic and heterolytic fission",
+                "Electrophiles, nucleophiles and free- radicals",
+                "Inductive effect: +I and –I effect",
+                "Resonance effect: +R and –R effect"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": ["Lassaigne's test for detection of elements"]
+        },
+        {
+          "chapter_name": "Hydrocarbons",
+          "importance_level": "Very High",
+          "estimated_exam_weight": "7-9 marks",
+          "topics": [
+            {
+              "topic_name": "Saturated Hydrocarbons (Alkanes)",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Preparation from haloalkanes (Reduction and Wurtz reaction), Decarboxylation, Catalytic hydrogenation of alkene and alkyne",
+                "Chemical properties: Substitution reactions (halogenation, nitration & sulphonation only), oxidation of ethane"
+              ]
+            },
+            {
+              "topic_name": "Unsaturated hydrocarbons (Alkenes & Alkynes)",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Alkenes: Preparation by Dehydration of alcohol, Dehydrohalogenation, Catalytic hydrogenation of alkyne",
+                "Chemical properties: Addition reaction with HX (Markovnikov's addition and peroxide effect), H2O, O3, H2SO4 only",
+                "Alkynes: Preparation from carbon and hydrogen, 1,2 dibromoethane, chloroform/iodoform only",
+                "Chemical properties: Addition reaction with (H2, HX, H2O), Acidic nature (action with Sodium, ammoniacal AgNO3 and ammoniacal Cu2Cl2)",
+                "Test of unsaturation (ethene & ethyne): bromine water test and Baeyer's test",
+                "Comparative studies of physical properties of alkane, alkene and alkyne",
+                "Kolbe's electrolysis methods for the preparation of alkane, alkene and alkynes"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [
+            "Markovnikov's rule and anti-Markovnikov addition"
+          ],
+          "important_reactions": [
+            "Wurtz reaction",
+            "Kolbe's electrolysis",
+            "Bromine water test and Baeyer's test for unsaturation",
+            "Addition reactions of alkenes and alkynes"
+          ]
+        },
+        {
+          "chapter_name": "Aromatic Hydrocarbons",
+          "importance_level": "High",
+          "estimated_exam_weight": "5-6 marks",
+          "topics": [
+            {
+              "topic_name": "Introduction and characteristics of aromatic compounds",
+              "priority": "High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Huckel's rule of aromaticity",
+                "Kekule structure of benzene",
+                "Resonance and isomerism",
+                "Preparation of benzene from decarboxylation of sodium benzoate, phenol, and ethyne only",
+                "Physical properties of benzene"
+              ]
+            },
+            {
+              "topic_name": "Chemical properties of benzene",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Addition reaction: hydrogen, halogen",
+                "Electrophilic substitution reactions: orientation of benzene derivatives (o, m & p), nitration, sulphonation, halogenations, Friedel-Craft's reaction (alkylation and acylation), combustion of benzene (free combustion only) and uses"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [
+            "Understanding the concept of aromaticity and Huckel's rule"
+          ],
+          "important_reactions": [
+            "Nitration, sulphonation, halogenation, and Friedel-Craft's reaction of benzene",
+            "Combustion of benzene"
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 4,
+      "unit_name": "Applied Chemistry",
+      "estimated_weightage_percent": 12,
+      "importance_level": "Medium",
+      "chapters": [
+        {
+          "chapter_name": "Fundamentals of Applied Chemistry",
+          "importance_level": "Medium",
+          "estimated_exam_weight": "3-4 marks",
+          "topics": [
+            {
+              "topic_name": "Chemical industry and its importance",
+              "priority": "Medium",
+              "commonly_asked": true,
+              "subtopics": [
+                "Stages in producing a new product",
+                "Economics of production, Cash flow in the production cycle",
+                "Running a chemical plant, Designing a chemical plant",
+                "Continuous and batch processing",
+                "Environmental impact of the chemical industry"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": []
+        },
+        {
+          "chapter_name": "Modern Chemical Manufactures",
+          "importance_level": "High",
+          "estimated_exam_weight": "6-8 marks",
+          "topics": [
+            {
+              "topic_name": "Modern Chemical Manufactures (principle and flow sheet diagram only)",
+              "priority": "Very High",
+              "commonly_asked": true,
+              "subtopics": [
+                "Manufacture of ammonia by Haber's process",
+                "Manufacture of nitric acid by Ostwald's process",
+                "Manufacture of sulphuric acid by contact process",
+                "Manufacture of sodium hydroxide by Diaphragm Cell",
+                "Manufacture of sodium carbonate by ammonia soda or Solvay process",
+                "Fertilizers (Chemical fertilizers, types of chemical fertilizers, production of urea with flow-sheet diagram)"
+              ]
+            }
+          ],
+          "important_numericals": [],
+          "important_derivations": [],
+          "important_reactions": [
+            "Haber's process for ammonia",
+            "Ostwald's process for nitric acid",
+            "Contact process for sulphuric acid"
+          ]
+        }
+      ]
+    }
+  ],
+  "high_weight_topics": [
+    {
+      "topic": "Stoichiometry and Mole Concept",
+      "reason": "Forms the foundation for many numerical problems and is frequently tested in exams.",
+      "estimated_frequency": "Page",
+      "difficulty": "Medium"
+    },
+    {
+      "topic": "Atomic Structure (Bohr's Model and Quantum Numbers)",
+      "reason": "Core conceptual topic with both theoretical and numerical questions.",
+      "estimated_frequency": "Frequent",
+      "difficulty": "Medium"
+    },
+    {
+      "topic": "Chemical Bonding (VSEPR Theory and Hybridization)",
+      "reason": "Crucial for understanding molecular shapes, which is a key exam focus.",
+      "estimated_frequency": "Frequent",
+      "difficulty": "High"
+    },
+    {
+      "topic": "States of Matter (Gas Laws and Kinetic Theory)",
+      "reason": "High weightage numericals and derivations are common from this chapter.",
+      "estimated_frequency": "Always",
+      "difficulty": "Medium"
+    },
+    {
+      "topic": "Chemistry of Non-metals",
+      "reason": "A large volume of content with many reagent-based reactions frequently asked.",
+      "estimated_frequency": "Always",
+      "difficulty": "Medium"
+    },
+    {
+      "topic": "Hydrocarbons and Aromatic Hydrocarbons",
+      "reason": "Organic chemistry reactions, tests, and mechanisms form a significant part of the exam.",
+      "estimated_frequency": "Very Frequent",
+      "difficulty": "High"
+    },
+    {
+      "topic": "Modern Chemical Manufactures",
+      "reason": "Process diagrams and principles are commonly asked in applied chemistry.",
+      "estimated_frequency": "Frequent",
+      "difficulty": "Low"
+    }
+  ],
+  "most_important_chapters": [
+    {
+      "chapter_name": "Stoichiometry",
+      "why_important": "Essential for solving numerical problems across multiple topics and carries high marks.",
+      "exam_frequency": "Always",
+      "difficulty": "Medium"
+    },
+    {
+      "chapter_name": "Chemical Bonding and Shapes of Molecules",
+      "why_important": "Combines conceptual understanding with the ability to predict molecular structures, a key skill for the exam.",
+      "exam_frequency": "Very Frequent",
+      "difficulty": "High"
+    },
+    {
+      "chapter_name": "States of Matter",
+      "why_important": "Major source of derivations and numericals, consistently appearing in exams.",
+      "exam_frequency": "Always",
+      "difficulty": "Medium"
+    },
+    {
+      "chapter_name": "Chemistry of Non-metals",
+      "why_important": "Covers a vast array of reactions, preparations, and properties that are straightforward to score from.",
+      "exam_frequency": "Always",
+      "difficulty": "Medium"
+    },
+    {
+      "chapter_name": "Hydrocarbons and Aromatic Hydrocarbons",
+      "why_important": "Foundation for organic chemistry reactions and tests, with high weightage in exams.",
+      "exam_frequency": "Very Frequent",
+      "difficulty": "High"
+    }
+  ],
+  "practical_topics": [
+    {
+      "experiment_name": "To study the names and the use of various apparatus used in chemistry laboratory",
+      "key_concepts": [
+        "Familiarity with beakers, flasks, pipettes, burettes, clamps, etc."
+      ]
+    },
+    {
+      "experiment_name": "To separate insoluble solid from the mixture of soluble and insoluble solid by the process of filtration",
+      "key_concepts": ["Filtration technique, gravity filtration"]
+    },
+    {
+      "experiment_name": "To separate volatile and non-volatile components from the mixture by sublimation",
+      "key_concepts": ["Sublimation process, examples like ammonium chloride"]
+    },
+    {
+      "experiment_name": "To obtain the crystal of sodium chloride by the process of neutralization",
+      "key_concepts": [
+        "Neutralization reaction between acid and base, crystallization"
+      ]
+    },
+    {
+      "experiment_name": "To obtain the precipitate of barium sulphate by the reaction between barium chloride and sulphuric acid",
+      "key_concepts": ["Precipitation reaction, double displacement"]
+    },
+    {
+      "experiment_name": "To separate saturated solution of bazaar copper sulphate and to make crystals from it",
+      "key_concepts": ["Recrystallization, solubility principles"]
+    },
+    {
+      "experiment_name": "To separate the components of mixture from calcium carbonate and sand",
+      "key_concepts": [
+        "Differences in chemical properties (e.g., acid reaction with carbonate)"
+      ]
+    },
+    {
+      "experiment_name": "To test ferrous ion in the given aqueous solution and oxidise it to ferric ion",
+      "key_concepts": ["Redox reaction, qualitative analysis of iron"]
+    },
+    {
+      "experiment_name": "To determine the equivalent weight of the given metal by hydrogen displacement method",
+      "key_concepts": [
+        "Quantitative analysis, stoichiometry, equivalent weight"
+      ]
+    },
+    {
+      "experiment_name": "To prepare hydrogen gas and study its properties",
+      "key_concepts": [
+        "Preparation of hydrogen (e.g., reaction of zinc with dilute acid), study of its properties"
+      ]
+    },
+    {
+      "experiment_name": "To identify acid radicals present in the given sample",
+      "key_concepts": [
+        "Qualitative analysis of anions (e.g., Cl⁻, SO₄²⁻, CO₃²⁻)"
+      ]
+    }
+  ],
+  "past_paper_sources": [
+    {
+      "name": "Dhan Raj's Blog (Question Paper Samples)",
+      "url": "https://www.dhanraj.com.np",
+      "type": "Past Papers",
+      "reliability": "High"
+    },
+    {
+      "name": "Maxbrain Chemistry",
+      "url": "https://www.maxbrainchemistry.com",
+      "type": "Past Papers and Syllabus",
+      "reliability": "High"
+    },
+    {
+      "name": "NEB Official Website",
+      "url": "https://www.neb.gov.np",
+      "type": "Official Curriculum",
+      "reliability": "Very High"
+    },
+    {
+      "name": "Sajha Notes",
+      "url": "https://sajhanotes.com",
+      "type": "Notes and Syllabus",
+      "reliability": "High"
+    }
+  ],
+  "study_strategy": {
+    "chapters_to_finish_first": [
+      "Stoichiometry",
+      "States of Matter",
+      "Chemical Bonding and Shapes of Molecules"
+    ],
+    "chapters_to_memorize": [
+      "Chemistry of Non-metals",
+      "Chemistry of Metals",
+      "Bio-inorganic Chemistry",
+      "Fundamentals of Applied Chemistry",
+      "Modern Chemical Manufactures"
+    ],
+    "chapters_for_numericals": [
+      "Stoichiometry",
+      "Atomic Structure",
+      "States of Matter",
+      "Oxidation and Reduction"
+    ],
+    "last_minute_revision_topics": [
+      "Important reactions of organic chemistry (Hydrocarbons, Aromatic Hydrocarbons)",
+      "Tests for unsaturation and various ions",
+      "Periodic trends in the periodic table",
+      "Flow sheet diagrams for chemical manufactures"
+    ],
+    "high_scoring_topics": [
+      "Laws of stoichiometry and mole concept numericals",
+      "Gas laws (Boyle's, Charles', ideal gas law)",
+      "Nomenclature and isomerism in organic compounds",
+      "Reactions of non-metals (especially ammonia, nitric acid, halogens)",
+      "Manufacture of ammonia, nitric acid, and sulphuric acid"
+    ]
+  }
+}
