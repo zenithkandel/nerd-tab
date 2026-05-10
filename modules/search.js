@@ -1,4 +1,4 @@
-import { flattenSyllabus } from './data.js';
+import { setSyllabusFilter } from './syllabus.js';
 
 let query = '';
 
@@ -8,7 +8,10 @@ export function initSearch() {
     input.addEventListener('input', () => {
         query = input.value.trim().toLowerCase();
         if (query && !query.startsWith('/')) {
+            setSyllabusFilter(query);
             renderQuickResults(query);
+        } else if (!query) {
+            setSyllabusFilter('');
         }
     });
 }
