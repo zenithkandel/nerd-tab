@@ -1,33 +1,56 @@
-// modules/ui.js
+import { Storage } from './storage.js';
+
 export function initUI() {
-    // Navigation
-    const navItems = document.querySelectorAll('.nav-item');
-    const viewSections = document.querySelectorAll('.view-section');
+    wireNavigation();
+    wireButtons();
+    applySettings();
+}
 
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            const targetId = e.currentTarget.getAttribute('data-target');
-            if (!targetId) return;
+function wireNavigation() {
+    const navItems = [...document.querySelectorAll('.nav-item')];
+    const views = [...document.querySelectorAll('.view-section')];
 
-            // Update active nav
-            navItems.forEach(nav => nav.classList.remove('active'));
-            e.currentTarget.classList.add('active');
+    const showView = (target) => {
+        navItems.forEach((item) => item.classList.toggle('active', item.dataset.target === target));
+        views.forEach((view) => {
+            const active = view.id === `view-${target}`;
+            view.classList.toggle('hidden', !active);
+            view.classList.toggle('active', active);
+        });
+    };
 
-            // Update active view
-            viewSections.forEach(section => {
-                section.classList.remove('active');
-                section.classList.add('hidden');
-            });
+    navItems.forEach((item) => item.addEventListener('click', () => showView(item.dataset.target)));
 
-            const targetView = document.getElementById('view-' + targetId);
-            if (targetView) {
-                targetView.classList.remove('hidden');
-                targetView.classList.add('active');
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            document.getElementById('cmd-input')?.blur();
+        }
+    });
+
+    showView('dashboard');
+}
+
+function wireButtons() {
+    document.querySelectorAll('[data-command]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const input = document.getElementById('cmd-input');
+            if (input) {
+                input.value = button.getAttribute('data-command');
+                input.focus();
             }
         });
     });
+}
 
-    // Time and Date Update
+function applySettings() {
+    const settings = Storage.get('settings', {});
+    document.body.dataset.theme = settings.theme || 'paper';
+    document.body.classList.toggle('focus-mode', Boolean(settings.focusMode));
+}
+
+export function switchView(target) {
+    document.querySelector(`.nav-item[data-target="${target}"]`)?.click();
+}
     const timeEl = document.getElementById('current-time');
     const dateEl = document.getElementById('current-date');
 

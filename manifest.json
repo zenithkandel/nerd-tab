@@ -3,10 +3,7 @@
   "name": "Nerd Tab",
   "version": "1.0.0",
   "description": "A premium study-focused productivity dashboard. Replace your new tab with a complete academic control center.",
-  "permissions": [
-    "storage",
-    "alarms"
-  ],
+  "permissions": ["storage", "alarms"],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },

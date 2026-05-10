@@ -1,54 +1,63 @@
-// modules/commands.js
+import { Storage } from './storage.js';
+import { downloadJson, safeJsonParse } from './utils.js';
+import { switchView } from './ui.js';
+
+const COMMANDS = {
+    focus: () => switchView('sessions'),
+    timer: () => switchView('sessions'),
+    task: () => switchView('tasks'),
+    note: () => switchView('notes'),
+    today: () => switchView('dashboard'),
+    stats: () => switchView('analytics'),
+    import: () => triggerImport(),
+    export: () => downloadJson('nerd-tab-export.json', Storage.export())
+};
+
 export function initCommands() {
     const input = document.getElementById('cmd-input');
     if (!input) return;
 
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            const val = input.value.trim();
-            if (val.startsWith('/')) {
-                executeCommand(val.substring(1).toLowerCase());
-                input.value = '';
-            } else if (val) {
-                // Web search fallback
-                window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(val)}`;
-            }
+    input.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter') return;
+        const value = input.value.trim();
+        if (!value) return;
+
+        if (value.startsWith('/')) {
+            runCommand(value.slice(1).toLowerCase().split(' ')[0]);
+        } else {
+            window.open(`https://duckduckgo.com/?q=${encodeURIComponent(value)}`, '_blank', 'noopener,noreferrer');
         }
+        input.value = '';
     });
 
-    // Auto-focus with slash
-    document.addEventListener('keydown', (e) => {
-        if (e.key === '/' && document.activeElement !== input) {
-            e.preventDefault();
-            input.focus();
-            // adding slash is handled manually if we want, but prevent default stops typed slash.
+    document.addEventListener('keydown', (event) => {
+        if (event.key === '/' && document.activeElement !== input) {
+            event.preventDefault();
             input.value = '/';
+            input.focus();
         }
     });
 }
 
-function executeCommand(cmd) {
-    const viewMap = {
-        'dashboard': 'dashboard',
-        'syllabus': 'syllabus',
-        'tasks': 'tasks',
-        'timer': 'timer',
-        'analytics': 'analytics',
-        'settings': 'settings'
-    };
-
-    if (viewMap[cmd]) {
-        // Trigger nav click
-        const btn = document.querySelector(`.nav-item[data-target="${viewMap[cmd]}"]`);
-        if (btn) btn.click();
-    } else if (cmd === 'focus') {
-        const btn = document.querySelector(`.nav-item[data-target="timer"]`);
-        if (btn) btn.click();
-        const toggle = document.getElementById('timer-toggle');
-        if (toggle && toggle.textContent === 'Start') {
-            toggle.click();
-        }
-    } else {
-        console.log("Unknown command:", cmd);
+function runCommand(command) {
+    if (COMMANDS[command]) {
+        COMMANDS[command]();
+        return;
     }
+    switchView(command);
+}
+
+function triggerImport() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.addEventListener('change', async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        const text = await file.text();
+        const payload = safeJsonParse(text, null);
+        if (payload) Storage.import(payload);
+        window.location.reload();
+    });
+    input.click();
 }

@@ -2,19 +2,19 @@ import { Storage } from './storage.js';
 import { getSyllabusStats } from './syllabus.js';
 
 export function initAnalytics() {
-  renderAnalytics();
-  renderMiniChart();
+    renderAnalytics();
+    renderMiniChart();
 }
 
 function renderAnalytics() {
-  const host = document.getElementById('analytics-view');
-  if (!host) return;
-  const sessions = Storage.get('sessions', []);
-  const stats = Storage.get('stats', {});
-  const syllabus = getSyllabusStats();
-  const days = Object.keys(stats).slice(-7);
+    const host = document.getElementById('analytics-view');
+    if (!host) return;
+    const sessions = Storage.get('sessions', []);
+    const stats = Storage.get('stats', {});
+    const syllabus = getSyllabusStats();
+    const days = Object.keys(stats).slice(-7);
 
-  host.innerHTML = `
+    host.innerHTML = `
     <div class="panel-titlebar"><h2>Analytics</h2><span>${sessions.length} sessions</span></div>
     <div class="chart-grid">
       <section class="chart-card"><h3>Study time</h3><canvas id="analytics-time" width="440" height="180"></canvas></section>
@@ -28,30 +28,30 @@ function renderAnalytics() {
     </div>
   `;
 
-  drawBarChart(document.getElementById('analytics-time'), days.map((day) => (stats[day]?.studyMinutes || 0) * 60), '#d97706');
-  drawBarChart(document.getElementById('analytics-completion'), [syllabus.complete, syllabus.remaining], ['#d97706', 'rgba(63,45,29,.2)']);
+    drawBarChart(document.getElementById('analytics-time'), days.map((day) => (stats[day]?.studyMinutes || 0) * 60), '#d97706');
+    drawBarChart(document.getElementById('analytics-completion'), [syllabus.complete, syllabus.remaining], ['#d97706', 'rgba(63,45,29,.2)']);
 }
 
 function renderMiniChart() {
-  const canvas = document.getElementById('mini-study-chart');
-  const stats = Storage.get('stats', {});
-  const days = Object.keys(stats).slice(-5);
-  drawBarChart(canvas, days.map((day) => (stats[day]?.studyMinutes || 0) * 60), '#92400e');
+    const canvas = document.getElementById('mini-study-chart');
+    const stats = Storage.get('stats', {});
+    const days = Object.keys(stats).slice(-5);
+    drawBarChart(canvas, days.map((day) => (stats[day]?.studyMinutes || 0) * 60), '#92400e');
 }
 
 function drawBarChart(canvas, values, color) {
-  if (!canvas || !canvas.getContext) return;
-  const ctx = canvas.getContext('2d');
-  const width = canvas.width;
-  const height = canvas.height;
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = 'rgba(255,255,255,.3)';
-  ctx.fillRect(0, 0, width, height);
-  const max = Math.max(1, ...values);
-  const barWidth = width / Math.max(values.length, 1);
-  values.forEach((value, index) => {
-    const barHeight = (value / max) * (height - 28);
-    ctx.fillStyle = Array.isArray(color) ? color[index % color.length] : color;
-    ctx.fillRect(index * barWidth + 10, height - barHeight - 12, Math.max(16, barWidth - 20), barHeight);
-  });
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'rgba(255,255,255,.3)';
+    ctx.fillRect(0, 0, width, height);
+    const max = Math.max(1, ...values);
+    const barWidth = width / Math.max(values.length, 1);
+    values.forEach((value, index) => {
+        const barHeight = (value / max) * (height - 28);
+        ctx.fillStyle = Array.isArray(color) ? color[index % color.length] : color;
+        ctx.fillRect(index * barWidth + 10, height - barHeight - 12, Math.max(16, barWidth - 20), barHeight);
+    });
 }
