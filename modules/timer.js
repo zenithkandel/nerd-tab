@@ -17,6 +17,7 @@ export function initTimer() {
     wireControls();
     renderTimer();
     renderStats();
+    renderSessionsView();
     syncInterval();
 }
 
@@ -70,6 +71,7 @@ function tick() {
     Storage.set('timer_state', state);
     renderTimer();
     renderStats();
+    renderSessionsView();
 }
 
 function pushSession() {
@@ -118,6 +120,26 @@ function renderStats() {
     if (countdown) {
         countdown.textContent = settings.examDate ? remainingUntil(settings.examDate) : 'Set exam date in Settings';
     }
+}
+
+export function renderSessionsView() {
+    const host = document.getElementById('sessions-view');
+    if (!host) return;
+    const sessions = Storage.get('sessions', []);
+    host.innerHTML = `
+        <div class="panel-titlebar"><h2>Study Sessions</h2><span>${sessions.length} archived</span></div>
+        <div class="metric-list">
+            ${sessions.slice(0, 20).map((session) => `
+                <div class="metric">
+                    <div>
+                        <small>${new Date(session.createdAt || Date.now()).toLocaleDateString()}</small>
+                        <strong>${session.type || 'pomodoro'} • ${session.minutes || 0}m</strong>
+                    </div>
+                    <span class="tag">${session.subject || 'Focus'}</span>
+                </div>
+            `).join('') || '<div class="metric"><div><small>No sessions yet</small><strong>Start a focus block to create history.</strong></div></div>'}
+        </div>
+    `;
 }
 
 function formatTime(totalSeconds) {

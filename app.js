@@ -84,6 +84,46 @@ function renderShellStats() {
             <div class="metric"><div><small>Streak</small><strong>${Storage.get('focus_streak', 0)} days</strong></div><span class="tag">Momentum</span></div>
         `;
     }
+
+    const shortcuts = document.getElementById('bookmarks-shortcuts');
+    if (shortcuts) {
+        const bookmarks = Storage.get('bookmarks', []);
+        shortcuts.innerHTML = bookmarks.map((bookmark) => `
+            <a class="shortcut-link" href="${bookmark.url}" target="_blank" rel="noreferrer noopener">
+                <strong>${bookmark.label}</strong>
+                <span>${bookmark.muted ? 'Muted' : 'Open'}</span>
+            </a>
+        `).join('');
+    }
+
+    const settingsHost = document.getElementById('settings-view');
+    if (settingsHost) {
+        const settings = Storage.get('settings', {});
+        settingsHost.innerHTML = `
+            <div class="panel-titlebar"><h2>Settings</h2><span>Local only</span></div>
+            <div class="editor-row">
+                <input id="settings-exam-date" type="date" value="${settings.examDate || ''}" />
+                <input id="settings-theme" placeholder="Theme" value="${settings.theme || 'paper'}" />
+                <button class="primary-button" id="settings-save-button">Save</button>
+                <textarea id="settings-notes" placeholder="Focus rules, exam date notes, or study constraints">${settings.studyRules || ''}</textarea>
+            </div>
+            <div class="metric-list">
+                <div class="metric"><div><small>Pomodoro minutes</small><strong>${settings.pomodoroMinutes || 25}</strong></div></div>
+                <div class="metric"><div><small>Theme</small><strong>${settings.theme || 'paper'}</strong></div></div>
+                <div class="metric"><div><small>Focus mode</small><strong>${settings.focusMode ? 'On' : 'Off'}</strong></div></div>
+            </div>
+        `;
+        document.getElementById('settings-save-button')?.addEventListener('click', () => {
+            const next = {
+                ...settings,
+                examDate: document.getElementById('settings-exam-date')?.value || '',
+                theme: document.getElementById('settings-theme')?.value.trim() || 'paper',
+                studyRules: document.getElementById('settings-notes')?.value.trim() || ''
+            };
+            Storage.set('settings', next);
+            window.location.reload();
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', boot);
