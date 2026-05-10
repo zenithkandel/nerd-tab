@@ -1,77 +1,114 @@
-import { StorageManager } from './storage.js';
+import { Storage } from './storage.js';
+import { formatDuration, uid } from './utils.js';
 
 let tasks = [];
 
-export function initTasks() {
-    tasks = StorageManager.get('tasks', [
-        { id: 1, text: "Review chapter 4", completed: false },
-        { id: 2, text: "Complete mock test", completed: false }
-    ]);
+export function initTasks(state = {}) {
+    tasks = (state.tasks || Storage.get('tasks', [])).map(normalizeTask);
+    renderTaskView();
     renderDashboardTasks();
 }
 
-function renderDashboardTasks() {
-    const container = document.getElementById('dashboard-tasks');
-    if (!container) return;
+function normalizeTask(task) {
+    return {
+        id: task.id || uid('task'),
+        title: task.title || task.text || 'Untitled task',
+        notes: task.notes || '',
+        priority: task.priority || 'medium',
+        due: task.due || '',
+        duration: Number(task.duration || 15),
+        recurring: task.recurring || '',
+        completed: Boolean(task.completed),
+        createdAt: task.createdAt || Date.now()
+    };
+}
 
-    container.innerHTML = '';
+function save() {
+    Storage.set('tasks', tasks);
+    renderTaskView();
+    renderDashboardTasks();
+}
 
-    if (tasks.length === 0) {
-        container.innerHTML = `<li class="text-sm text-[#92400e]/60 italic py-2">No tasks for today. Focus on the syllabus.</li>`;
-    }
+export function renderTaskView() {
+    const host = document.getElementById('tasks-view');
+    if (!host) return;
+    const sorted = [...tasks].sort((a, b) => Number(a.completed) - Number(b.completed) || priorityRank(a.priority) - priorityRank(b.priority) || String(a.due).localeCompare(String(b.due)));
 
-    tasks.forEach((task, i) => {
-        const li = document.createElement('li');
-        li.className = 'flex items-center space-x-3 py-1 group';
+    host.innerHTML = `
+        <div class="panel-titlebar"><h2>Tasks</h2><span>${sorted.length} items</span></div>
+        <div class="task-input-row">
+            <input id="task-title-input" placeholder="Add a task, goal, or revision item" />
+            <select id="task-priority-input"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select>
+            <input id="task-due-input" type="date" />
+            <button class="primary-button" id="task-add-button">Add task</button>
+        </div>
+        <div class="task-list" id="task-list"></div>
+    `;
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'checkbox-custom w-4 h-4 text-xs';
-        checkbox.checked = task.completed;
-
-        checkbox.addEventListener('change', (e) => {
-            task.completed = e.target.checked;
-            StorageManager.set('tasks', tasks);
-            renderDashboardTasks();
-        });
-
-        const span = document.createElement('span');
-        span.className = `flex-1 text-sm transition-opacity ${task.completed ? 'line-through opacity-50' : 'text-[#3f2d1d]'}`;
-        span.textContent = task.text;
-
-        const delBtn = document.createElement('button');
-        delBtn.className = 'opacity-0 group-hover:opacity-100 text-red-700/60 hover:text-red-700 transition-opacity text-xs';
-        delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-        delBtn.addEventListener('click', () => {
-            tasks.splice(i, 1);
-            StorageManager.set('tasks', tasks);
-            renderDashboardTasks();
-        });
-
-        li.appendChild(checkbox);
-        li.appendChild(span);
-        li.appendChild(delBtn);
-
-        container.appendChild(li);
+    document.getElementById('task-add-button')?.addEventListener('click', addTaskFromInputs);
+    document.getElementById('task-title-input')?.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') addTaskFromInputs();
     });
 
-    // Add task input
-    const addWrap = document.createElement('div');
-    addWrap.className = 'flex items-center space-x-3 mt-4 border-t border-[#d97706]/20 pt-2';
+    const list = document.getElementById('task-list');
+    if (!list) return;
+    list.innerHTML = sorted.map((task) => `
+        <article class="task-item" data-id="${task.id}">
+            <div class="task-main">
+                <strong>${escapeHtml(task.title)}</strong>
+                <small>${task.completed ? 'Completed' : 'Due ' + (task.due || 'anytime')} • ${task.priority.toUpperCase()} • ${formatDuration(task.duration)}</small>
+            </div>
+            <div class="task-actions">
+                <button class="ghost-button" data-action="toggle">${task.completed ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-regular fa-square"></i>'}</button>
+                <button class="ghost-button" data-action="delete"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </article>
+    `).join('');
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = "Add a new task...";
-    input.className = 'flex-1 bg-transparent border-none focus:outline-none text-sm text-[#3f2d1d] placeholder-[#92400e]/50 py-1';
-
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && input.value.trim()) {
-            tasks.push({ id: Date.now(), text: input.value.trim(), completed: false });
-            StorageManager.set('tasks', tasks);
-            renderDashboardTasks();
-        }
+    list.querySelectorAll('.task-item').forEach((item) => {
+        item.querySelector('[data-action="toggle"]')?.addEventListener('click', () => {
+            const task = tasks.find((entry) => entry.id === item.dataset.id);
+            if (!task) return;
+            task.completed = !task.completed;
+            save();
+        });
+        item.querySelector('[data-action="delete"]')?.addEventListener('click', () => {
+            tasks = tasks.filter((entry) => entry.id !== item.dataset.id);
+            save();
+        });
     });
+}
 
-    addWrap.appendChild(input);
-    container.appendChild(addWrap);
+export function renderDashboardTasks() {
+    const host = document.getElementById('dashboard-tasks');
+    const count = document.getElementById('dashboard-task-count');
+    if (!host) return;
+    const visible = tasks.map(normalizeTask).filter((task) => !task.completed).slice(0, 5);
+    if (count) count.textContent = `${visible.length} open`;
+    host.innerHTML = visible.map((task) => `
+        <div class="metric">
+            <div><small>${task.priority.toUpperCase()}</small><strong>${escapeHtml(task.title)}</strong></div>
+            <span class="tag">${task.due || formatDuration(task.duration)}</span>
+        </div>
+    `).join('') || '<div class="metric"><div><small>No tasks queued</small><strong>Add the next revision item.</strong></div></div>';
+}
+
+function addTaskFromInputs() {
+    const titleInput = document.getElementById('task-title-input');
+    const priorityInput = document.getElementById('task-priority-input');
+    const dueInput = document.getElementById('task-due-input');
+    const title = titleInput?.value.trim();
+    if (!title) return;
+    tasks.unshift(normalizeTask({ title, priority: priorityInput?.value || 'medium', due: dueInput?.value || '' }));
+    if (titleInput) titleInput.value = '';
+    if (dueInput) dueInput.value = '';
+    save();
+}
+
+function priorityRank(priority) {
+    return { high: 0, medium: 1, low: 2 }[priority] ?? 1;
+}
+
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 }

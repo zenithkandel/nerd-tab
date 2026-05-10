@@ -1,180 +1,193 @@
-import { StorageManager } from './storage.js';
+import { Storage } from './storage.js';
+import { flattenSyllabus, normalizeSyllabus } from './data.js';
+import { formatDuration } from './utils.js';
 
-let fullSyllabus = [];
-let progressState = {}; 
-let collapseState = {}; 
-let nodeRegistry = {};
+let syllabusTree = [];
+let progress = {};
+let collapse = {};
+let filterText = '';
 
-export function initSyllabus(data) {
-    fullSyllabus = data.syllabus || data; 
-    if (!Array.isArray(fullSyllabus)) fullSyllabus = [fullSyllabus];
-
-    progressState = StorageManager.get('progress', {});
-    collapseState = StorageManager.get('collapse', {});
-    nodeRegistry = {};
-
-    renderTree();
-    updateTotalProgress();
+export function initSyllabus(data, state = {}) {
+  const normalized = data?.tree ? data : normalizeSyllabus(data || {});
+  syllabusTree = normalized.tree || [];
+  progress = state.progress || Storage.get('progress', {});
+  collapse = state.collapse || Storage.get('collapse', {});
+  wireToolbar();
+  render();
+  renderDashboardPreview();
 }
 
-function processNode(node, depth, parentId, index) {
-    const isString = typeof node === 'string';
-    const title = isString ? node : (node.title || node.name || node.unit_name || node.chapter_name || node.topic_name || "Untitled");
-    const nodeId = isString ? `${parentId}-${index}` : (node.id || (parentId ? `${parentId}-${index}` : `root-${index}`));
-    
-    let children = [];
-    if (!isString) {
-        children = node.topics || node.subtopics || node.children || node.units || node.chapters || [];
-    }
-    const hasChildren = children.length > 0;
-    
-    const state = progressState[nodeId] || false;
-    const isCompleted = state === true;
-    const isPartial = state === 'partial';
-    const isCollapsed = collapseState[nodeId] || false;
-
-    nodeRegistry[nodeId] = { id: nodeId, childrenIds: [], parentId: parentId };
-
-    const wrapper = document.createElement('div');
-    wrapper.className = 'my-1';
-
-    const header = document.createElement('div');
-    header.className = `syllabus-node-header flex items-center py-2 px-2 rounded-sm transition-colors cursor-pointer group hover:bg-[#d97706]/10`;
-    
-    const caret = document.createElement('div');
-    caret.className = 'w-6 text-center text-[#92400e]/50 cursor-pointer hover:text-[#92400e] transition-transform';
-    if(hasChildren) {
-        caret.innerHTML = isCollapsed ? '<i class="fa-solid fa-chevron-right text-xs"></i>' : '<i class="fa-solid fa-chevron-down text-xs"></i>';
-        caret.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleCollapse(nodeId, wrapper);
-        });
-    } else {
-        caret.innerHTML = `<span class="inline-block w-4"></span>`;
-    }
-    header.appendChild(caret);
-
-    const checkboxWrap = document.createElement('div');
-    checkboxWrap.className = 'mx-2 flex items-center';
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = `checkbox-custom ${isPartial ? 'checkbox-partial' : ''}`;
-    checkbox.checked = isCompleted;
-    checkbox.dataset.nodeId = nodeId;
-    checkbox.addEventListener('change', (e) => handleCheckboxChange(nodeId, e.target.checked));
-    checkboxWrap.appendChild(checkbox);
-    header.appendChild(checkboxWrap);
-
-    const titleObj = document.createElement('div');
-    titleObj.className = `flex-1 ml-2 select-none ${isCompleted ? 'line-through opacity-50' : 'text-[#3f2d1d]'}`;
-    
-    const titleText = document.createElement('span');
-    titleText.className = depth === 0 ? 'font-bold text-base text-[#92400e]' : (depth === 1 ? 'font-semibold text-sm' : 'text-sm');
-    titleText.textContent = title;
-    titleObj.appendChild(titleText);
-
-    if(!isString && (node.weightage || node.priority || node.importance_level)) {
-        const tag = document.createElement('span');
-        tag.className = 'ml-3 text-[10px] uppercase font-bold bg-[#d97706]/20 text-[#d97706] px-1.5 py-0.5 rounded-sm';
-        tag.textContent = node.weightage || node.priority || node.importance_level;
-        titleObj.appendChild(tag);
-    }
-
-    header.appendChild(titleObj);
-    header.addEventListener('click', (e) => {
-        if(e.target !== checkbox && hasChildren) toggleCollapse(nodeId, wrapper);
+function wireToolbar() {
+  document.getElementById('syllabus-expand-all')?.addEventListener('click', () => {
+    flattenSyllabus(syllabusTree).forEach((node) => {
+      if (node.children?.length) collapse[node.id] = false;
     });
+    Storage.set('collapse', collapse);
+    render();
+  });
 
-    wrapper.appendChild(header);
-
-    const childrenContainer = document.createElement('div');
-    childrenContainer.className = 'syllabus-children-container';
-    childrenContainer.style.display = isCollapsed ? 'none' : 'block';
-
-    if(hasChildren) {
-        children.forEach((child, i) => {
-            const childWrapper = processNode(child, depth + 1, nodeId, i);
-            childrenContainer.appendChild(childWrapper);
-            const childId = typeof child === 'string' ? `${nodeId}-${i}` : (child.id || `${nodeId}-${i}`);
-            nodeRegistry[nodeId].childrenIds.push(childId);
-        });
-        wrapper.appendChild(childrenContainer);
-    }
-    return wrapper;
-}
-
-export function renderTree() {
-    const container = document.getElementById('syllabus-tree-container');
-    if(!container) return;
-    container.innerHTML = '';
-    nodeRegistry = {};
-    fullSyllabus.forEach((node, i) => {
-        container.appendChild(processNode(node, 0, null, i));
+  document.getElementById('syllabus-collapse-all')?.addEventListener('click', () => {
+    flattenSyllabus(syllabusTree).forEach((node) => {
+      if (node.children?.length) collapse[node.id] = true;
     });
+    Storage.set('collapse', collapse);
+    render();
+  });
 }
 
-function handleCheckboxChange(nodeId, isChecked) {
-    progressState[nodeId] = isChecked;
-    const setChildren = (id, checkedStatus) => {
-        const nodeInfo = nodeRegistry[id];
-        if(!nodeInfo) return;
-        nodeInfo.childrenIds.forEach(childId => {
-            progressState[childId] = checkedStatus;
-            setChildren(childId, checkedStatus);
-        });
-    };
-    setChildren(nodeId, isChecked);
-    recalculateProgressUpward();
-    StorageManager.set('progress', progressState);
-    renderTree(); 
-    updateTotalProgress();
+export function setSyllabusFilter(value) {
+  filterText = String(value || '').trim().toLowerCase();
+  render();
 }
 
-function recalculateProgressUpward() {
-    const roots = fullSyllabus.map((node, i) => typeof node === 'string' ? `root-${i}` : (node.id || `root-${i}`));
-    const calcNode = (id) => {
-        const nodeInfo = nodeRegistry[id];
-        if(!nodeInfo || nodeInfo.childrenIds.length === 0) return progressState[id] || false;
-        let completeCount = 0, partialCount = 0;
-        nodeInfo.childrenIds.forEach(childId => {
-            const childState = calcNode(childId);
-            if(childState === true) completeCount++;
-            else if(childState === 'partial') partialCount++;
-        });
-        let newState = false;
-        if(completeCount === nodeInfo.childrenIds.length) newState = true;
-        else if(completeCount > 0 || partialCount > 0) newState = 'partial';
-        progressState[id] = newState;
-        return newState;
-    };
-    roots.forEach(rootId => calcNode(rootId));
+export function render() {
+  const container = document.getElementById('syllabus-tree-container');
+  if (!container) return;
+  container.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+  syllabusTree.forEach((node) => fragment.appendChild(renderNode(node)));
+  container.appendChild(fragment);
+  updateProgress();
 }
 
-function toggleCollapse(id, wrapperNode) {
-    const container = wrapperNode.querySelector('.syllabus-children-container');
-    const caretIcon = wrapperNode.querySelector('.fa-solid');
-    if(!container) return;
-    const newState = !(collapseState[id] || false);
-    collapseState[id] = newState;
-    StorageManager.set('collapse', collapseState);
-    if(newState) {
-        container.style.display = 'none';
-        caretIcon.classList.replace('fa-chevron-down', 'fa-chevron-right');
-    } else {
-        container.style.display = 'block';
-        caretIcon.classList.replace('fa-chevron-right', 'fa-chevron-down');
+function renderNode(node) {
+  const branch = document.createElement('div');
+  branch.className = 'syllabus-node';
+  branch.dataset.id = node.id;
+  branch.dataset.complete = String(getCompletion(node) === 1);
+  branch.dataset.partial = String(getCompletion(node) === 0.5);
+
+  const visible = matchesFilter(node);
+  if (!visible) branch.hidden = true;
+
+  const row = document.createElement('div');
+  row.className = 'node-row';
+
+  const toggle = document.createElement('button');
+  toggle.className = 'node-toggle';
+  toggle.innerHTML = node.children?.length ? `<i class="fa-solid ${collapse[node.id] ? 'fa-chevron-right' : 'fa-chevron-down'}"></i>` : '<span>•</span>';
+  toggle.disabled = !node.children?.length;
+  toggle.addEventListener('click', () => {
+    if (!node.children?.length) return;
+    collapse[node.id] = !collapse[node.id];
+    Storage.set('collapse', collapse);
+    render();
+  });
+
+  const checkbox = document.createElement('button');
+  checkbox.className = `node-checkbox ${getCompletion(node) === 1 ? 'is-complete' : ''}`;
+  checkbox.innerHTML = getCompletion(node) === 1 ? '<i class="fa-solid fa-check"></i>' : getCompletion(node) === 0.5 ? '<i class="fa-solid fa-minus"></i>' : '<i class="fa-regular fa-square"></i>';
+  checkbox.addEventListener('click', () => toggleNode(node, getCompletion(node) !== 1));
+
+  const content = document.createElement('div');
+  content.className = 'node-content';
+  const metaBits = [];
+  if (node.meta.importance) metaBits.push(`<span class="node-tag">${escapeHtml(node.meta.importance)}</span>`);
+  if (node.meta.weightage) metaBits.push(`<span class="node-tag">${escapeHtml(String(node.meta.weightage))}</span>`);
+  if (node.meta.difficulty) metaBits.push(`<span class="node-tag">${escapeHtml(String(node.meta.difficulty))}</span>`);
+  if (node.meta.examWeight) metaBits.push(`<span class="node-tag">${escapeHtml(String(node.meta.examWeight))}</span>`);
+  if (node.meta.tags?.length) metaBits.push(...node.meta.tags.slice(0, 3).map((tag) => `<span class="node-tag">#${escapeHtml(tag)}</span>`));
+  if (node.estimatedMinutes) metaBits.push(`<span class="node-tag">${formatDuration(node.estimatedMinutes)}</span>`);
+  content.innerHTML = `
+    <div class="node-title">${escapeHtml(node.title)}</div>
+    <div class="node-meta">${metaBits.join('')}</div>
+  `;
+
+  const pin = document.createElement('button');
+  pin.className = `node-pin ${node.meta.pinned ? 'is-pinned' : ''}`;
+  pin.innerHTML = node.meta.pinned ? '<i class="fa-solid fa-thumbtack"></i>' : '<i class="fa-regular fa-thumbtack"></i>';
+  pin.addEventListener('click', () => {
+    node.meta.pinned = !node.meta.pinned;
+    render();
+  });
+
+  row.append(toggle, checkbox, content, pin);
+  branch.appendChild(row);
+
+  if (node.children?.length && !collapse[node.id]) {
+    const childrenWrap = document.createElement('div');
+    childrenWrap.className = 'node-children';
+    node.children.forEach((child) => childrenWrap.appendChild(renderNode(child)));
+    branch.appendChild(childrenWrap);
+  }
+
+  return branch;
+}
+
+function matchesFilter(node) {
+  if (!filterText) return true;
+  const haystack = [node.title, node.meta.importance, node.meta.weightage, node.meta.difficulty, node.meta.examWeight, ...(node.meta.tags || [])].filter(Boolean).join(' ').toLowerCase();
+  return haystack.includes(filterText) || (node.children || []).some(matchesFilter);
+}
+
+function toggleNode(node, checked) {
+  const visit = (current, value) => {
+    progress[current.id] = value;
+    current.children?.forEach((child) => visit(child, value));
+  };
+  visit(node, checked);
+  syncParents();
+  Storage.set('progress', progress);
+  updateProgress();
+  renderDashboardPreview();
+  render();
+}
+
+function syncParents() {
+  const walk = (node) => {
+    if (!node.children?.length) return progress[node.id] === true ? 1 : 0;
+    const childStates = node.children.map(walk);
+    const complete = childStates.every((state) => state === 1);
+    const partial = childStates.some((state) => state === 1 || state === 0.5);
+    progress[node.id] = complete ? true : partial ? 'partial' : false;
+    return progress[node.id] === true ? 1 : progress[node.id] === 'partial' ? 0.5 : 0;
+  };
+  syllabusTree.forEach(walk);
+}
+
+function getCompletion(node) {
+  if (!node.children?.length) return progress[node.id] === true ? 1 : progress[node.id] === 'partial' ? 0.5 : 0;
+  const states = node.children.map(getCompletion);
+  if (states.every((state) => state === 1)) return 1;
+  if (states.some((state) => state > 0)) return 0.5;
+  return progress[node.id] === true ? 1 : progress[node.id] === 'partial' ? 0.5 : 0;
+}
+
+function updateProgress() {
+  let total = 0;
+  let complete = 0;
+  flattenSyllabus(syllabusTree).forEach((node) => {
+    if (!node.children?.length) {
+      total += 1;
+      if (progress[node.id] === true) complete += 1;
     }
+  });
+  const percent = total ? Math.round((complete / total) * 100) : 0;
+  const element = document.getElementById('syllabus-total-progress');
+  if (element) element.textContent = `${percent}%`;
 }
 
-function updateTotalProgress() {
-    let totalLeaves = 0, completedLeaves = 0;
-    Object.keys(nodeRegistry).forEach(id => {
-        if(nodeRegistry[id].childrenIds.length === 0) {
-            totalLeaves++;
-            if(progressState[id] === true) completedLeaves++;
-        }
-    });
-    const percent = totalLeaves === 0 ? 0 : Math.round((completedLeaves / totalLeaves) * 100);
-    const progressEl = document.getElementById('syllabus-total-progress');
-    if(progressEl) progressEl.textContent = `${percent}%`;
+export function renderDashboardPreview() {
+  const container = document.getElementById('next-topics-container');
+  const counter = document.getElementById('dashboard-syllabus-count');
+  if (!container) return;
+  const leaves = flattenSyllabus(syllabusTree).filter((node) => !node.children?.length);
+  const pending = leaves.filter((node) => progress[node.id] !== true).slice(0, 5);
+  if (counter) counter.textContent = `${pending.length} visible`;
+  container.innerHTML = pending.map((node) => `
+    <div class="metric">
+      <div><small>${escapeHtml(node.meta.importance || node.type)}</small><strong>${escapeHtml(node.title)}</strong></div>
+      <span class="tag">${formatDuration(node.estimatedMinutes)}</span>
+    </div>
+  `).join('') || '<div class="metric"><div><small>All caught up</small><strong>Nothing pending right now.</strong></div></div>';
+}
+
+export function getSyllabusStats() {
+  const leaves = flattenSyllabus(syllabusTree).filter((node) => !node.children?.length);
+  const done = leaves.filter((node) => progress[node.id] === true).length;
+  return { total: leaves.length, complete: done, remaining: Math.max(0, leaves.length - done) };
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 }
