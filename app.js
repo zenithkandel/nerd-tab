@@ -19,20 +19,34 @@ const quotes = [
 ];
 
 async function boot() {
+    console.log('[Nerd Tab] Boot starting...');
     const state = Storage.loadAll();
     let syllabusData = { tree: [] };
     let syllabusError = null;
 
     try {
+        console.log('[Nerd Tab] Loading syllabus data...');
         syllabusData = await loadSyllabusSource();
+        console.log('[Nerd Tab] Syllabus loaded:', syllabusData.tree?.length, 'units');
     } catch (error) {
         syllabusError = error;
-        console.error('Failed to load syllabus data:', error);
+        console.error('[Nerd Tab] Failed to load syllabus data:', error);
     }
 
-    initUI({ state });
-    initCommands();
-    initSearch();
+    try {
+        console.log('[Nerd Tab] Initializing UI...');
+        initUI({ state });
+        console.log('[Nerd Tab] UI initialized');
+    } catch (error) {
+        console.error('[Nerd Tab] UI init failed:', error);
+    }
+
+    try {
+        initCommands();
+        initSearch();
+    } catch (error) {
+        console.error('[Nerd Tab] Commands/Search init failed:', error);
+    }
 
     initSyllabus(syllabusData, state);
     initTasks(state);
