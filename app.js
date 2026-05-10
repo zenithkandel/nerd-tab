@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const syllabusData = await response.json();
-        
+
         // Initialize syllabus engine
         initSyllabus(syllabusData);
 
     } catch (error) {
         console.error("Failed to load syllabus:", error);
-        document.getElementById('syllabus-tree-container').innerHTML = 
+        document.getElementById('syllabus-tree-container').innerHTML =
             `<div class="text-red-600 p-4 border border-red-500/30 rounded bg-red-50">
                 Failed to load data.json. Ensure the extension is serving the file correctly.
              </div>`;

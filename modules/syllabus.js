@@ -16,7 +16,7 @@ export function initSyllabus(data) {
 }
 
 function processId(node, parentId, index) {
-    if(!node.id) {
+    if (!node.id) {
         node.id = parentId ? `${parentId}-${index}` : `root-${index}`;
     }
 }
@@ -27,7 +27,7 @@ function createNodeElement(node, depth, parentId, index) {
     // Ensure children arrays exist if needed
     const children = node.topics || node.subtopics || node.children || node.units || [];
     const hasChildren = children.length > 0;
-    
+
     // State derivation
     const state = progressState[node.id] || false;
     const isCompleted = state === true;
@@ -41,14 +41,14 @@ function createNodeElement(node, depth, parentId, index) {
     // Header
     const header = document.createElement('div');
     header.className = `syllabus-node-header flex items-center py-2 px-2 rounded-sm transition-colors cursor-pointer group hover:bg-[#d97706]/10`;
-    
+
     // Indent based on depth (or handled by margin left?)
     // We will handle nested margin via layout, but a slight padding tweak if needed.
 
     // Caret
     const caret = document.createElement('div');
     caret.className = 'w-6 text-center text-[#92400e]/50 cursor-pointer hover:text-[#92400e] transition-transform';
-    if(hasChildren) {
+    if (hasChildren) {
         caret.innerHTML = isCollapsed ? '<i class="fa-solid fa-chevron-right text-xs"></i>' : '<i class="fa-solid fa-chevron-down text-xs"></i>';
         caret.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -67,7 +67,7 @@ function createNodeElement(node, depth, parentId, index) {
     checkbox.className = `checkbox-custom ${isPartial ? 'checkbox-partial' : ''}`;
     checkbox.checked = isCompleted;
     checkbox.dataset.nodeId = node.id;
-    
+
     checkbox.addEventListener('change', (e) => {
         handleCheckboxChange(node, e.target.checked);
     });
@@ -78,14 +78,14 @@ function createNodeElement(node, depth, parentId, index) {
     // Title
     const titleObj = document.createElement('div');
     titleObj.className = `flex-1 ml-2 select-none ${isCompleted ? 'line-through opacity-50' : 'text-[#3f2d1d]'}`;
-    
+
     const titleText = document.createElement('span');
     titleText.className = depth === 0 ? 'font-bold text-base' : (depth === 1 ? 'font-semibold text-sm' : 'text-sm');
     titleText.textContent = node.title || node.name || node.topic || "Untitled";
     titleObj.appendChild(titleText);
 
     // Tags / Metadata
-    if(node.weightage || node.priority) {
+    if (node.weightage || node.priority) {
         const tag = document.createElement('span');
         tag.className = 'ml-3 text-[10px] uppercase font-bold bg-[#d97706]/20 text-[#d97706] px-1.5 py-0.5 rounded-sm';
         tag.textContent = node.weightage || node.priority;
@@ -93,10 +93,10 @@ function createNodeElement(node, depth, parentId, index) {
     }
 
     header.appendChild(titleObj);
-    
+
     // Click header to toggle if children exist
     header.addEventListener('click', (e) => {
-        if(e.target !== checkbox && hasChildren) {
+        if (e.target !== checkbox && hasChildren) {
             toggleCollapse(node.id, wrapper);
         }
     });
@@ -108,7 +108,7 @@ function createNodeElement(node, depth, parentId, index) {
     childrenContainer.className = 'syllabus-children-container';
     childrenContainer.style.display = isCollapsed ? 'none' : 'block';
 
-    if(hasChildren) {
+    if (hasChildren) {
         children.forEach((child, i) => {
             childrenContainer.appendChild(createNodeElement(child, depth + 1, node.id, i));
         });
@@ -124,9 +124,9 @@ function createNodeElement(node, depth, parentId, index) {
 
 export function renderTree() {
     const container = document.getElementById('syllabus-tree-container');
-    if(!container) return;
+    if (!container) return;
     container.innerHTML = '';
-    
+
     fullSyllabus.forEach((node, i) => {
         container.appendChild(createNodeElement(node, 0, null, i));
     });
@@ -160,7 +160,7 @@ function recalculateProgressUpward() {
     // Post-order traversal to calculate parent states
     const calcNode = (node) => {
         const children = node._children || [];
-        if(children.length === 0) {
+        if (children.length === 0) {
             return progressState[node.id] || false;
         }
 
@@ -169,14 +169,14 @@ function recalculateProgressUpward() {
 
         children.forEach(child => {
             const childState = calcNode(child);
-            if(childState === true) completeCount++;
-            else if(childState === 'partial') partialCount++;
+            if (childState === true) completeCount++;
+            else if (childState === 'partial') partialCount++;
         });
 
         let newState = false;
-        if(completeCount === children.length) {
+        if (completeCount === children.length) {
             newState = true;
-        } else if(completeCount > 0 || partialCount > 0) {
+        } else if (completeCount > 0 || partialCount > 0) {
             newState = 'partial';
         }
 
@@ -190,15 +190,15 @@ function recalculateProgressUpward() {
 function toggleCollapse(id, wrapperNode) {
     const container = wrapperNode.querySelector('.syllabus-children-container');
     const caretIcon = wrapperNode.querySelector('.fa-solid');
-    if(!container) return;
+    if (!container) return;
 
     const isCurrentlyCollapsed = collapseState[id] || false;
     const newState = !isCurrentlyCollapsed;
-    
+
     collapseState[id] = newState;
     StorageManager.set('collapse', collapseState);
 
-    if(newState) {
+    if (newState) {
         container.style.display = 'none';
         caretIcon.classList.replace('fa-chevron-down', 'fa-chevron-right');
     } else {
@@ -213,9 +213,9 @@ function updateTotalProgress() {
 
     const countLeaves = (node) => {
         const children = node._children || [];
-        if(children.length === 0) {
+        if (children.length === 0) {
             totalLeaves++;
-            if(progressState[node.id] === true) completedLeaves++;
+            if (progressState[node.id] === true) completedLeaves++;
         } else {
             children.forEach(countLeaves);
         }
@@ -225,5 +225,5 @@ function updateTotalProgress() {
 
     const percent = totalLeaves === 0 ? 0 : Math.round((completedLeaves / totalLeaves) * 100);
     const progressEl = document.getElementById('syllabus-total-progress');
-    if(progressEl) progressEl.textContent = `${percent}%`;
+    if (progressEl) progressEl.textContent = `${percent}%`;
 }

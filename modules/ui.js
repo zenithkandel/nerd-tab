@@ -7,7 +7,7 @@ export function initUI() {
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             const targetId = e.currentTarget.getAttribute('data-target');
-            if(!targetId) return;
+            if (!targetId) return;
 
             // Update active nav
             navItems.forEach(nav => nav.classList.remove('active'));
@@ -18,9 +18,9 @@ export function initUI() {
                 section.classList.remove('active');
                 section.classList.add('hidden');
             });
-            
+
             const targetView = document.getElementById('view-' + targetId);
-            if(targetView) {
+            if (targetView) {
                 targetView.classList.remove('hidden');
                 targetView.classList.add('active');
             }
@@ -36,7 +36,7 @@ export function initUI() {
         timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         dateEl.textContent = now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
     }
-    
+
     updateTime();
     setInterval(updateTime, 60000);
 }

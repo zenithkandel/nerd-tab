@@ -1,25 +1,30 @@
 /* Custom styles extending Tailwind */
 body {
+
     /* Custom scrollbar for webkit to match the theme */
     ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
     }
+
     ::-webkit-scrollbar-track {
-        background: rgba(240, 226, 194, 0.5); 
+        background: rgba(240, 226, 194, 0.5);
     }
+
     ::-webkit-scrollbar-thumb {
-        background: rgba(217, 119, 6, 0.3); 
+        background: rgba(217, 119, 6, 0.3);
         border-radius: 4px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
-        background: rgba(217, 119, 6, 0.5); 
+        background: rgba(217, 119, 6, 0.5);
     }
 }
 
 .view-section {
     display: none;
 }
+
 .view-section.active {
     display: flex;
 }
@@ -29,6 +34,7 @@ body {
     color: #92400e;
     font-weight: 500;
 }
+
 .nav-item.active {
     background-color: rgba(217, 119, 6, 0.15);
     font-weight: 700;
@@ -39,14 +45,17 @@ body {
 .syllabus-node {
     position: relative;
 }
+
 .syllabus-children-container {
     border-left: 1px dashed rgba(217, 119, 6, 0.3);
     padding-left: 1rem;
     margin-left: 0.5rem;
 }
+
 .syllabus-node-header:hover {
     background-color: rgba(240, 226, 194, 0.8);
 }
+
 .checkbox-custom {
     appearance: none;
     background-color: #f5ecd9;
@@ -61,6 +70,7 @@ body {
     place-content: center;
     cursor: pointer;
 }
+
 .checkbox-custom::before {
     content: "";
     width: 0.65em;
@@ -72,9 +82,11 @@ body {
     transform-origin: center;
     clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 }
+
 .checkbox-custom:checked::before {
     transform: scale(1);
 }
+
 .checkbox-partial {
     background-color: rgba(217, 119, 6, 0.2);
 }
