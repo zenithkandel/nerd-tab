@@ -51,15 +51,15 @@ function applySettings() {
 export function switchView(target) {
     document.querySelector(`.nav-item[data-target="${target}"]`)?.click();
 }
-    const timeEl = document.getElementById('current-time');
-    const dateEl = document.getElementById('current-date');
+const timeEl = document.getElementById('current-time');
+const dateEl = document.getElementById('current-date');
 
-    function updateTime() {
-        const now = new Date();
-        timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        dateEl.textContent = now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
-    }
+function updateTime() {
+    const now = new Date();
+    timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    dateEl.textContent = now.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' });
+}
 
-    updateTime();
-    setInterval(updateTime, 60000);
+updateTime();
+setInterval(updateTime, 60000);
 }
