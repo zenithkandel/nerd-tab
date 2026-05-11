@@ -320,7 +320,7 @@ button {
 }
 
 .nt-grid-dashboard {
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .panel {
@@ -332,6 +332,7 @@ button {
 
 .panel-large {
     min-height: 280px;
+    grid-column: span 2;
 }
 
 .panel-small {
@@ -511,7 +512,7 @@ button {
 
 .node-row {
     display: grid;
-    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-columns: auto auto minmax(0, 1fr) auto auto;
     gap: 10px;
     align-items: center;
     padding: 9px 10px;
@@ -525,6 +526,7 @@ button {
 
 .node-toggle,
 .node-checkbox,
+.node-star,
 .node-pin {
     width: 28px;
     height: 28px;
@@ -542,6 +544,11 @@ button {
 .node-checkbox.is-complete {
     background: rgba(217, 119, 6, 0.22);
     color: var(--accent-dark);
+}
+
+.node-star.is-marked {
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, .4);
 }
 
 .node-pin.is-pinned {

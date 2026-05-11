@@ -5,6 +5,7 @@ import { formatDuration } from './utils.js';
 let syllabusTree = [];
 let progress = {};
 let collapse = {};
+let important = {};
 let filterText = '';
 
 export function initSyllabus(data, state = {}) {
@@ -12,9 +13,11 @@ export function initSyllabus(data, state = {}) {
     syllabusTree = normalized.tree || [];
     progress = state.progress || Storage.get('progress', {});
     collapse = state.collapse || Storage.get('collapse', {});
+    important = state.important || Storage.get('important', {});
     wireToolbar();
     render();
     renderDashboardPreview();
+    renderImportantSection();
 }
 
 function wireToolbar() {
@@ -65,7 +68,7 @@ function renderNode(node) {
 
     const toggle = document.createElement('button');
     toggle.className = 'node-toggle';
-    toggle.innerHTML = node.children?.length ? `<i class="fa-solid ${collapse[node.id] ? 'fa-chevron-right' : 'fa-chevron-down'}"></i>` : '<span>•</span>';
+    toggle.innerHTML = node.children?.length ? (collapse[node.id] ? '▶️' : '▼') : '•';
     toggle.disabled = !node.children?.length;
     toggle.addEventListener('click', () => {
         if (!node.children?.length) return;
@@ -76,7 +79,7 @@ function renderNode(node) {
 
     const checkbox = document.createElement('button');
     checkbox.className = `node-checkbox ${getCompletion(node) === 1 ? 'is-complete' : ''}`;
-    checkbox.innerHTML = getCompletion(node) === 1 ? '<i class="fa-solid fa-check"></i>' : getCompletion(node) === 0.5 ? '<i class="fa-solid fa-minus"></i>' : '<i class="fa-regular fa-square"></i>';
+    checkbox.innerHTML = getCompletion(node) === 1 ? '✓' : getCompletion(node) === 0.5 ? '−' : '☐';
     checkbox.addEventListener('click', () => toggleNode(node, getCompletion(node) !== 1));
 
     const content = document.createElement('div');
@@ -93,15 +96,25 @@ function renderNode(node) {
     <div class="node-meta">${metaBits.join('')}</div>
   `;
 
+    const star = document.createElement('button');
+    star.className = `node-star ${important[node.id] ? 'is-marked' : ''}`;
+    star.innerHTML = important[node.id] ? '⭐' : '☆';
+    star.addEventListener('click', () => {
+        important[node.id] = !important[node.id];
+        Storage.set('important', important);
+        render();
+        renderImportantSection();
+    });
+
     const pin = document.createElement('button');
     pin.className = `node-pin ${node.meta.pinned ? 'is-pinned' : ''}`;
-    pin.innerHTML = node.meta.pinned ? '<i class="fa-solid fa-thumbtack"></i>' : '<i class="fa-regular fa-thumbtack"></i>';
+    pin.innerHTML = node.meta.pinned ? '📌' : '📍';
     pin.addEventListener('click', () => {
         node.meta.pinned = !node.meta.pinned;
         render();
     });
 
-    row.append(toggle, checkbox, content, pin);
+    row.append(toggle, checkbox, content, star, pin);
     branch.appendChild(row);
 
     if (node.children?.length && !collapse[node.id]) {
@@ -190,4 +203,21 @@ export function getSyllabusStats() {
 
 function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+
+function renderImportantSection() {
+    const container = document.getElementById('syllabus-important-container');
+    if (!container) return;
+    const allNodes = flattenSyllabus(syllabusTree);
+    const marked = allNodes.filter((node) => important[node.id]);
+    if (!marked.length) {
+        container.innerHTML = '<div class="metric"><div><small>None marked</small><strong>Star items to track them here.</strong></div></div>';
+        return;
+    }
+    container.innerHTML = marked.map((node) => `
+    <div class="metric">
+      <div><small>${escapeHtml(node.meta.importance || node.type)}</small><strong>${escapeHtml(node.title)}</strong></div>
+      <span class="tag">${node.meta.examWeight || node.meta.weightage || '—'}</span>
+    </div>
+  `).join('');
 }
