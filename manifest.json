@@ -9,14 +9,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": [
-        "data.json",
-        "styles.css",
-        "app.js",
-        "newtab.html",
-        "assets/icon128.png",
-        "modules/*.js"
-      ],
+      "resources": ["newtab.html"],
       "matches": ["<all_urls>"]
     }
   ],

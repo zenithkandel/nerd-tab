@@ -4,233 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nerd Tab</title>
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+      }
+      iframe {
+        height: 100vh;
+        width: 100vw;
+      }
+    </style>
   </head>
-  <body class="nt-shell">
-    <div class="nt-app">
-      <aside class="nt-sidebar">
-        <div class="nt-brand">
-          <div class="nt-brand-mark">N</div>
-          <div>
-            <div class="nt-brand-title">Nerd Tab</div>
-            <div class="nt-brand-subtitle">Study OS</div>
-          </div>
-        </div>
-
-        <nav class="nt-nav" id="nav-menu" aria-label="Primary">
-          <button class="nav-item active" data-target="dashboard">
-            <span>ðŸ“Š</span><span>Dashboard</span>
-          </button>
-          <button class="nav-item" data-target="syllabus">
-            <span>ðŸ—‚ï¸</span><span>Syllabus</span>
-          </button>
-          <button class="nav-item" data-target="tasks">
-            <span>âœ“</span><span>Tasks</span>
-          </button>
-          <button class="nav-item" data-target="sessions">
-            <span>â³</span><span>Study Sessions</span>
-          </button>
-          <button class="nav-item" data-target="analytics">
-            <span>ðŸ“ˆ</span><span>Analytics</span>
-          </button>
-          <button class="nav-item" data-target="notes">
-            <span>âœï¸</span><span>Notes</span>
-          </button>
-          <button class="nav-item" data-target="flashcards">
-            <span>ðŸ“‘</span><span>Flashcards</span>
-          </button>
-          <button class="nav-item" data-target="bookmarks">
-            <span>ðŸ”–</span><span>Bookmarks</span>
-          </button>
-          <button class="nav-item" data-target="settings">
-            <span>âš™ï¸</span><span>Settings</span>
-          </button>
-        </nav>
-
-        <div class="nt-sidebar-footer">
-          <button class="nt-mini-button" data-shortcut="youtube">
-            YouTube
-          </button>
-          <button class="nt-mini-button" data-shortcut="gmail">Gmail</button>
-          <button class="nt-mini-button" data-shortcut="chatgpt">
-            ChatGPT
-          </button>
-          <button class="nt-mini-button" data-shortcut="docs">Docs</button>
-        </div>
-      </aside>
-
-      <div class="nt-main">
-        <header class="nt-topbar">
-          <div class="nt-search-wrap">
-            <span class="nt-search-icon">ðŸ”</span>
-            <input
-              id="cmd-input"
-              class="nt-search"
-              type="text"
-              placeholder="Search syllabus, tasks, notes, or run /commands"
-              autocomplete="off"
-              spellcheck="false"
-            />
-          </div>
-          <div class="nt-top-meta">
-            <div id="motivational-quote" class="nt-quote">
-              Small sessions. Clear progress. Fewer distractions.
-            </div>
-            <div class="nt-dateblock">
-              <span id="current-date"></span><span id="current-time"></span>
-            </div>
-          </div>
-          <button
-            id="settings-button"
-            class="nt-settings-button"
-            aria-label="Settings"
-          >
-            ðŸŽšï¸
-          </button>
-        </header>
-
-        <main class="nt-content">
-          <section id="view-dashboard" class="view-section active">
-            <div class="nt-page-head">
-              <div>
-                <h1>Dashboard</h1>
-                <p>
-                  Focus the day on syllabus coverage, exam timing, and the next
-                  concrete action.
-                </p>
-              </div>
-              <div class="nt-head-actions">
-                <button class="nt-chip" data-command="/focus">
-                  Focus mode
-                </button>
-                <button class="nt-chip" data-command="/today">Today</button>
-                <button class="nt-chip" data-command="/import">Import</button>
-              </div>
-            </div>
-            <div class="nt-grid nt-grid-dashboard">
-              <article class="panel panel-large">
-                <div class="panel-titlebar">
-                  <h2>Priority tasks</h2>
-                  <span id="dashboard-task-count"></span>
-                </div>
-                <div id="dashboard-tasks" class="panel-body"></div>
-              </article>
-              <article class="panel panel-large">
-                <div class="panel-titlebar">
-                  <h2>Next syllabus targets</h2>
-                  <span id="dashboard-syllabus-count"></span>
-                </div>
-                <div id="next-topics-container" class="panel-body"></div>
-              </article>
-              <article class="panel panel-small">
-                <div class="panel-titlebar"><h2>Today</h2></div>
-                <div id="dashboard-stats" class="metric-list"></div>
-              </article>
-              <article class="panel panel-small">
-                <div class="panel-titlebar"><h2>Sessions</h2></div>
-                <canvas id="mini-study-chart" width="320" height="140"></canvas>
-              </article>
-              <article class="panel panel-small">
-                <div class="panel-titlebar"><h2>â­ Important</h2></div>
-                <div
-                  id="syllabus-important-container"
-                  class="metric-list"
-                ></div>
-              </article>
-            </div>
-          </section>
-
-          <section id="view-syllabus" class="view-section hidden">
-            <div class="nt-page-head nt-page-head-sticky">
-              <div>
-                <h1>Syllabus</h1>
-                <p>
-                  Deeply nested, persistent, and optimized for large exam
-                  structures.
-                </p>
-              </div>
-              <div class="nt-head-actions">
-                <button class="nt-chip" id="syllabus-expand-all">
-                  Expand all
-                </button>
-                <button class="nt-chip" id="syllabus-collapse-all">
-                  Collapse all
-                </button>
-                <span class="nt-progress-pill"
-                  >Progress
-                  <strong id="syllabus-total-progress">0%</strong></span
-                >
-              </div>
-            </div>
-            <div class="panel panel-tree">
-              <div id="syllabus-tree-toolbar" class="panel-toolbar"></div>
-              <div id="syllabus-tree-container" class="syllabus-tree"></div>
-            </div>
-          </section>
-
-          <section id="view-tasks" class="view-section hidden">
-            <div id="tasks-view" class="panel panel-full"></div>
-          </section>
-          <section id="view-sessions" class="view-section hidden">
-            <div id="sessions-view" class="panel panel-full"></div>
-          </section>
-          <section id="view-analytics" class="view-section hidden">
-            <div id="analytics-view" class="panel panel-full"></div>
-          </section>
-          <section id="view-notes" class="view-section hidden">
-            <div id="notes-view" class="panel panel-full"></div>
-          </section>
-          <section id="view-flashcards" class="view-section hidden">
-            <div id="flashcards-view" class="panel panel-full"></div>
-          </section>
-          <section id="view-bookmarks" class="view-section hidden">
-            <div id="bookmarks-view" class="panel panel-full"></div>
-          </section>
-          <section id="view-settings" class="view-section hidden">
-            <div id="settings-view" class="panel panel-full"></div>
-          </section>
-        </main>
-      </div>
-
-      <aside class="nt-rail">
-        <section class="panel focus-panel">
-          <div class="panel-titlebar">
-            <h2>Pomodoro</h2>
-            <span id="focus-mode-indicator">Study</span>
-          </div>
-          <div id="timer-display" class="timer-display">25:00</div>
-          <div class="timer-actions">
-            <button id="timer-toggle" class="primary-button">Start</button>
-            <button id="timer-reset" class="ghost-button">ðŸ”„</button>
-          </div>
-          <div class="timer-meta">
-            <div>
-              <span>Session</span
-              ><strong id="timer-session-label">Focus</strong>
-            </div>
-            <div>
-              <span>State</span><strong id="timer-state-label">Idle</strong>
-            </div>
-          </div>
-        </section>
-
-        <section class="panel stats-panel">
-          <div class="panel-titlebar"><h2>Focus stats</h2></div>
-          <div class="metric-list" id="stat-summary"></div>
-        </section>
-
-        <section class="panel stats-panel">
-          <div class="panel-titlebar"><h2>Countdown</h2></div>
-          <div id="exam-countdown" class="exam-countdown">--</div>
-        </section>
-
-        <section class="panel stats-panel">
-          <div class="panel-titlebar"><h2>Quick links</h2></div>
-          <div id="bookmarks-shortcuts" class="shortcut-list"></div>
-        </section>
-      </aside>
-    </div>
-
-    <script type="module" src="app.js"></script>
+  <body>
+    <iframe
+      src="https://zenithkandel.com.np/maths-exam"
+      frameborder="0"
+    ></iframe>
   </body>
 </html>
